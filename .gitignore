@@ -1,0 +1,53 @@
+# Datos y resultados no publicables
+data/
+results/
+output/
+outputs/
+logs/
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+*.bam
+*.sam
+*.biom
+*.xlsx
+*.xls
+*.docx
+*.pdf
+
+# Configuración local y secretos
+.env
+.env.*
+!.env.example
+*.local.*
+paths.local.*
+*secret*
+*credential*
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+
+# R y RStudio
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+renv/library/
+renv/staging/
+
+# Sistemas operativos y editores
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+~$*
+
