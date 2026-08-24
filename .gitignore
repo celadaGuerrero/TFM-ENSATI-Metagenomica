@@ -1,9 +1,12 @@
 # Datos y resultados no publicables
 data/
+datos/
 results/
+resultados/
 output/
 outputs/
 logs/
+referencias/
 *.fastq
 *.fastq.gz
 *.fq
@@ -50,4 +53,3 @@ desktop.ini
 .vscode/
 .idea/
 ~$*
-
