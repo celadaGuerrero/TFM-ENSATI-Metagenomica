@@ -1,4 +1,4 @@
-"""Comprobación de la estructura longitudinal de las muestras."""
+"""Revisión de las muestras y de su organización por participante y visita."""
 
 import pandas as pd
 
@@ -6,16 +6,16 @@ muestras = pd.read_csv("datos/muestras.csv")
 
 columnas_necesarias = ["muestra", "participante", "visita", "grupo"]
 
-# Se comprueba que estén disponibles todas las variables necesarias
+# Se verifica que la tabla incluya las columnas de muestra, participante, visita y grupo
 for columna in columnas_necesarias:
     if columna not in muestras.columns:
         raise ValueError(f"Falta la columna: {columna}")
 
-# Cada código de muestra debe aparecer una sola vez
+# Cada muestra debe estar representada por un único registro
 if muestras["muestra"].duplicated().any():
     raise ValueError("Se han encontrado códigos de muestra duplicados")
 
-# Cada participante debe disponer de una muestra V00 y otra V06
+# Para mantener el diseño longitudinal, cada participante debe incluir las visitas V00 y V06
 visitas = muestras.groupby("participante")["visita"].apply(set)
 
 for participante, visitas_participante in visitas.items():
@@ -24,7 +24,7 @@ for participante, visitas_participante in visitas.items():
             f"El participante {participante} no dispone de las dos visitas"
         )
 
-# El grupo de intervención no debe cambiar entre visitas
+# Se comprueba que cada participante mantenga el mismo grupo de intervención en V00 y V06
 grupos = muestras.groupby("participante")["grupo"].nunique()
 
 if not grupos.eq(1).all():

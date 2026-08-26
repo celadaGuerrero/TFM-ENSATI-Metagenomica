@@ -1,16 +1,16 @@
-# Cálculo de la diversidad alfa mediante el índice de Shannon
+# Se calcula el índice de Shannon para describir la diversidad alfa de las muestras
 library(vegan)
 
 matriz <- read.csv("datos/matriz_taxonomica.csv", row.names = 1)
 metadatos <- read.csv("datos/muestras.csv")
 
-# Se ordenan los metadatos como las filas de la matriz
+# Los metadatos se ordenan para que coincidan con las muestras de la matriz
 metadatos <- metadatos[match(rownames(matriz), metadatos$muestra), ]
 
-# Shannon se calcula sobre la composición taxonómica no filtrada
+# Para calcular Shannon se utiliza la composición taxonómica completa, sin aplicar el filtro de prevalencia
 metadatos$shannon <- diversity(matriz, index = "shannon")
 
-# Se separan las visitas para calcular el cambio de cada participante
+# Se relacionan las muestras V00 y V06 de cada participante para calcular su cambio en Shannon
 visita_v00 <- metadatos[metadatos$visita == "V00", ]
 visita_v06 <- metadatos[metadatos$visita == "V06", ]
 
@@ -23,7 +23,7 @@ cambio <- merge(
 
 cambio$delta_shannon <- cambio$shannon_V06 - cambio$shannon_V00
 
-# Se compara el cambio entre grupos mediante una prueba por permutaciones
+# El estadístico F observado se contrasta permutando las etiquetas de grupo entre participantes
 estadistico_observado <- summary(
   aov(delta_shannon ~ grupo, data = cambio)
 )[[1]]["grupo", "F value"]
@@ -44,7 +44,7 @@ prueba <- data.frame(
   valor_p = valor_p
 )
 
-# El resumen es descriptivo porque el tamaño muestral es reducido
+# La mediana y el rango intercuartílico se presentan como resumen descriptivo de cada grupo
 resumen <- aggregate(
   delta_shannon ~ grupo,
   data = cambio,

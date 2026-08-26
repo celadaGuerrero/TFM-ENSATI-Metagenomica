@@ -8,7 +8,7 @@ INDICE="mpa_vJun23_CHOCOPhlAnSGB_202307"
 
 mkdir -p "$SALIDA"
 
-# MetaPhlAn estima la abundancia relativa mediante marcadores específicos
+# MetaPhlAn identifica los microorganismos presentes y calcula su abundancia relativa mediante genes marcadores
 metaphlan \
   "${ENTRADA}/${MUESTRA}_R1.fastq.gz,${ENTRADA}/${MUESTRA}_R2.fastq.gz" \
   --input_type fastq \

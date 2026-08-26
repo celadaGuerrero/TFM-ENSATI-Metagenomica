@@ -1,9 +1,9 @@
-# Análisis de especies, SGB y rutas MetaCyc
+# El análisis compara los cambios en especies, SGB y rutas MetaCyc entre los grupos de intervención
 
-# El mismo procedimiento se aplica por separado a cada familia
+# El análisis se repite de forma independiente para las especies, los SGB y las rutas MetaCyc
 FAMILIA <- "especies"
 
-# Se utiliza un número reducido en esta versión representativa
+# En este ejemplo se limita el número de permutaciones, aunque puede aumentarse en el análisis definitivo
 NUM_PERMUTACIONES <- 999
 
 matriz <- read.csv(
@@ -13,7 +13,7 @@ matriz <- read.csv(
 metadatos <- read.csv("datos/muestras.csv")
 metadatos <- metadatos[match(rownames(matriz), metadatos$muestra), ]
 
-# Se exige presencia en al menos 6 muestras y 3 participantes
+# El filtro de prevalencia exige que cada característica aparezca en un mínimo de seis muestras y tres participantes
 presencia_muestras <- colSums(matriz > 0)
 presencia_participantes <- sapply(colnames(matriz), function(caracteristica) {
   participantes_positivos <- metadatos$participante[matriz[, caracteristica] > 0]
@@ -25,7 +25,7 @@ caracteristicas_validas <- (
 )
 matriz <- matriz[, caracteristicas_validas, drop = FALSE]
 
-# Reemplazo multiplicativo de ceros y transformación CLR
+# Antes de aplicar la transformación CLR, los ceros se sustituyen por valores pequeños y las demás abundancias se ajustan para mantener la suma de la composición
 D <- ncol(matriz)
 delta <- 1 / D^2
 
@@ -55,7 +55,7 @@ reemplazar_ceros <- function(fila) {
 matriz <- t(apply(matriz, 1, reemplazar_ceros))
 matriz_clr <- log(matriz) - rowMeans(log(matriz))
 
-# Se calcula el cambio V06 - V00 de cada participante
+# Para cada participante, el cambio se obtiene como la diferencia CLR entre V06 y V00
 participantes <- unique(metadatos$participante)
 delta_clr <- matrix(
   nrow = length(participantes),
@@ -79,7 +79,7 @@ for (i in seq_along(participantes)) {
   grupos[i] <- datos_participante$grupo[1]
 }
 
-# Cada característica se evalúa mediante permutación de las etiquetas de grupo
+# Para cada especie, SGB o ruta MetaCyc, el estadístico observado se contrasta permutando las etiquetas de grupo entre participantes
 set.seed(2026)
 resultados <- data.frame()
 
@@ -107,7 +107,7 @@ for (caracteristica in colnames(delta_clr)) {
   )
 }
 
-# El ajuste se realiza dentro de la familia analizada
+# El ajuste mediante Benjamini-Hochberg se realiza por separado para las especies, los SGB y las rutas MetaCyc
 resultados$valor_q <- p.adjust(resultados$valor_p, method = "BH")
 resultados <- resultados[order(resultados$valor_q), ]
 

@@ -1,13 +1,13 @@
-# Preparación de los datos para el análisis de diversidad beta
+# Análisis de la diversidad beta mediante transformación CLR y distancia de Aitchison
 library(vegan)
 
 matriz <- read.csv("datos/matriz_taxonomica.csv", row.names = 1)
 metadatos <- read.csv("datos/muestras.csv")
 
-# Se ordenan los metadatos como las filas de la matriz
+# Los metadatos se ordenan para que coincidan con las muestras de la matriz
 metadatos <- metadatos[match(rownames(matriz), metadatos$muestra), ]
 
-# Se aplica un reemplazo multiplicativo antes de la transformación CLR
+# Antes de aplicar la transformación CLR, los ceros se sustituyen por valores pequeños y las demás abundancias se ajustan para mantener la suma de la composición
 D <- ncol(matriz)
 delta <- 1 / D^2
 
@@ -38,7 +38,7 @@ matriz <- t(apply(matriz, 1, reemplazar_ceros))
 
 matriz_clr <- log(matriz) - rowMeans(log(matriz))
 
-# El cambio intraindividual mantiene emparejadas las visitas V00 y V06
+# Para cada participante, el cambio se obtiene como la diferencia CLR entre V06 y V00
 participantes <- unique(metadatos$participante)
 delta_clr <- matrix(
   nrow = length(participantes),
@@ -63,7 +63,7 @@ for (i in seq_along(participantes)) {
   grupos[i] <- datos_participante$grupo[1]
 }
 
-# La distancia euclídea entre vectores CLR es la distancia de Aitchison
+# Se calcula la distancia euclídea sobre los cambios CLR para obtener la matriz de distancias de Aitchison
 distancias_aitchison <- dist(delta_clr, method = "euclidean")
 
 set.seed(2026)

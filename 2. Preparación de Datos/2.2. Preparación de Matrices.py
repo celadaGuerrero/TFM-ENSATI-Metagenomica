@@ -1,4 +1,4 @@
-"""Preparación de una matriz de abundancias relativas."""
+"""Transformación de los perfiles taxonómicos en una matriz de abundancias relativas."""
 
 from pathlib import Path
 
@@ -11,11 +11,11 @@ perfiles = pd.read_csv(
     index_col="caracteristica",
 )
 
-# La tabla original contiene las características en filas
+# Los perfiles se reorganizan para colocar las muestras en filas y los taxones en columnas
 matriz = perfiles.transpose()
 matriz.index.name = "muestra"
 
-# Se conserva únicamente la intersección entre perfiles y metadatos
+# Se verifica que no falten ni sobren muestras al comparar los perfiles con los metadatos
 muestras_esperadas = set(metadatos["muestra"])
 muestras_disponibles = set(matriz.index)
 
@@ -27,7 +27,7 @@ if muestras_esperadas != muestras_disponibles:
         f"adicionales: {adicionales}"
     )
 
-# El cierre transforma cada fila en una composición de suma uno
+# Las abundancias de cada muestra se normalizan para que su suma sea igual a uno
 if (matriz < 0).any().any():
     raise ValueError("La matriz contiene abundancias negativas")
 
@@ -38,7 +38,7 @@ if (sumas == 0).any():
 
 matriz_relativa = matriz.div(sumas, axis=0)
 
-# Se mantiene el mismo orden que en los metadatos
+# Las muestras se ordenan siguiendo el mismo orden de la tabla de metadatos
 orden_muestras = metadatos["muestra"].tolist()
 matriz_relativa = matriz_relativa.loc[orden_muestras]
 

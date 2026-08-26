@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Las rutas son genéricas y deben definirse en un entorno autorizado
+# Las rutas mostradas son ejemplos y deben sustituirse por las del entorno de trabajo autorizado
 MUESTRA="muestra_ejemplo"
 INDICE="referencias/GRCh38/GRCh38"
 ENTRADA="resultados/control_calidad"
@@ -8,7 +8,7 @@ SALIDA="resultados/lecturas_sin_humano"
 
 mkdir -p "$SALIDA"
 
-# Se conservan únicamente los pares no alineados frente a GRCh38
+# Se comparan las lecturas con GRCh38 para retirar aquellas de posible origen humano
 bowtie2 \
   --very-sensitive \
   -x "$INDICE" \
