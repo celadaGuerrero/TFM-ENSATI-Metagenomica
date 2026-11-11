@@ -42,15 +42,15 @@ leer_matriz <- function(tipo_datos, metadatos) {
 }
 
 preparar_cambios_clr <- function(matriz, metadatos, parejas) {
-  # Conservar los códigos presentes en al menos seis muestras y tres personas.
+  # Conservar los códigos presentes en al menos seis muestras y tres participantes.
   n_muestras <- colSums(matriz > 0)
-  n_personas <- integer(ncol(matriz))
+  n_participantes <- integer(ncol(matriz))
   for (id in parejas$participante) {
     filas <- metadatos$participante == id
-    n_personas <- n_personas + (colSums(matriz[filas, , drop = FALSE] > 0) > 0)
+    n_participantes <- n_participantes + (colSums(matriz[filas, , drop = FALSE] > 0) > 0)
   }
-  conservar <- n_muestras >= 6 & n_personas >= 3
-  filtro <- data.frame(codigo = colnames(matriz), n_muestras, n_personas, conservar)
+  conservar <- n_muestras >= 6 & n_participantes >= 3
+  filtro <- data.frame(codigo = colnames(matriz), n_muestras, n_participantes, conservar)
   matriz <- matriz[, conservar, drop = FALSE]
   stopifnot(ncol(matriz) >= 2, all(rowSums(matriz) > 0))
 
@@ -99,4 +99,3 @@ guardar_tabla <- function(tabla, archivo) {
   dir.create(dirname(archivo), recursive = TRUE, showWarnings = FALSE)
   write.csv(tabla, archivo, row.names = FALSE, fileEncoding = "UTF-8")
 }
-

@@ -1,60 +1,59 @@
 # 3. Análisis estadístico
 
-Los tres scripts comparan entre grupos el cambio de cada persona entre V00
-y V06. Para calcularlo se utilizan sus dos muestras. Los códigos de grupo
-se tratan como categorías.
+Cada participante aporta un cambio: el valor de V06 menos el de V00. Los
+scripts comparan ese cambio entre los tres grupos de intervención.
 
-## Entradas
+## Archivos necesarios
 
-Se utilizan `muestras.csv`, `matriz_especies.csv`, `matriz_sgb.csv` y
-`matriz_rutas.csv`, guardados en `resultados/preparacion/` en el paso anterior.
-Los scripts se leen o ejecutan desde la carpeta principal del repositorio.
+Se leen `muestras.csv`, `matriz_especies.csv`, `matriz_sgb.csv` y
+`matriz_rutas.csv` desde `resultados/preparacion/`. Los scripts se ejecutan
+desde la carpeta principal del repositorio.
 
-## Orden de lectura
+| Script | Qué compara |
+|---|---|
+| [01. Diversidad alfa](01_diversidad_alfa.R) | El cambio en los índices de diversidad de cada participante |
+| [02. Diversidad beta](02_diversidad_beta.R) | Los cambios en la composición de microorganismos y rutas metabólicas |
+| [03. Especies, SGB y rutas](03_especies_sgb_rutas.R) | El cambio de cada especie, SGB o ruta por separado |
 
-| Script | Pregunta | Pasos principales |
-|---|---|---|
-| [01. Diversidad alfa](01_diversidad_alfa.R) | ¿Difiere entre grupos el cambio en diversidad? | Índices por muestra, cambio V06 − V00 y prueba F por permutaciones |
-| [02. Diversidad beta](02_diversidad_beta.R) | ¿Difieren los cambios en la composición taxonómica o funcional? | Filtro, CLR, cambio individual, PERMANOVA y dispersión |
-| [03. Especies, SGB y rutas](03_especies_sgb_rutas.R) | ¿En qué especies, SGB o rutas difiere el cambio entre grupos? | Cambio CLR por código, prueba F y ajuste por comparaciones múltiples |
+[00_funciones.R](00_funciones.R) contiene las operaciones comunes: leer las
+matrices, unir las visitas, filtrar, aplicar CLR y preparar las permutaciones.
 
-[00_funciones.R](00_funciones.R) reúne las operaciones que comparten los tres
-scripts: lectura de las matrices, comprobación de visitas, filtro, CLR y
-permutaciones. Así se evita repetir estas operaciones en cada script.
-
-## Conceptos necesarios
+## Qué mide cada análisis
 
 La diversidad alfa resume cada muestra. Shannon combina el número de taxones
-y el reparto de sus abundancias. Gini-Simpson da más peso a los dominantes.
-La riqueza cuenta las especies con una abundancia relativa de al menos el 0,01 %.
+y el reparto de sus abundancias. Gini-Simpson da más peso a los taxones
+abundantes. La riqueza cuenta las especies con una abundancia relativa de
+al menos el 0,01 %.
 
-La diversidad beta compara la composición. Aquí se transforma cada perfil
-a CLR y se resta V00 a V06. La PERMANOVA compara esos cambios entre grupos.
-La prueba de dispersión examina cuánto varían los cambios dentro de cada grupo.
+La diversidad beta compara la composición. Primero se aplica CLR, una
+transformación que expresa las abundancias en relación con las demás.
+Después se resta V00 a V06 para cada participante. La PERMANOVA compara
+esos cambios entre grupos. La prueba de dispersión examina cuánto varían
+los cambios dentro de cada grupo.
 
-En las pruebas por especie, SGB o ruta se compara cada columna por separado.
-El valor `q_BH` es el p-valor ajustado mediante Benjamini-Hochberg. El ajuste
-se hace por separado para especies, SGB y rutas.
+El tercer script hace una prueba para cada especie, SGB o ruta. Como se hacen
+muchas pruebas, se ajustan los p-valores mediante Benjamini-Hochberg. El valor
+ajustado se llama `q_BH`. El ajuste se hace por separado para especies, SGB y rutas.
 
-Los filtros, el tratamiento de ceros y las 99.999 permutaciones se explican en
-[Métodos y versiones](../documentacion/metodos_y_versiones.md).
+Las [decisiones del análisis](../documentacion/metodos_y_versiones.md) recogen
+los filtros, el tratamiento de ceros y las 99.999 permutaciones.
 
-## Salidas
+## Tablas que se guardan
 
-| Carpeta dentro de `resultados/estadistica/` | Tablas |
+Todas se guardan dentro de `resultados/estadistica/`:
+
+| Carpeta | Tablas |
 |---|---|
-| alfa | Índices por muestra, cambios por persona y pruebas globales |
-| beta | Filtros, cambios CLR, coordenadas del PCA y pruebas globales para especies y rutas |
-| especies, sgb, rutas | Filtro aplicado y pruebas globales por código |
+| alfa | Índices por muestra, cambios por participante y pruebas globales |
+| beta | Filtros, cambios CLR, coordenadas del PCA y pruebas de especies y rutas |
+| especies, sgb, rutas | Filtro aplicado y pruebas de cada código |
 
-Los intervalos por bootstrap, las comparaciones posteriores y los análisis
-de sensibilidad se conservan en los archivos originales del TFM. Esta versión
-simplificada del 11/11/2026 no incluye esas partes ni se ha utilizado para
-recalcular los resultados entregados.
+El TFM también incluye intervalos por bootstrap, comparaciones posteriores y
+análisis de sensibilidad. Esas partes se conservan en los scripts originales.
+Esta versión simplificada no las incluye y no se ha ejecutado de nuevo.
 
-## Ampliación exploratoria
+## Análisis exploratorio
 
-El [apartado en Python](exploratorio_python/README.md) incluye la predicción
-de una pérdida de peso de al menos el 5 % y la agrupación de perfiles basales.
-Responde a preguntas distintas y se presenta después del análisis principal.
-
+El [apartado en Python](exploratorio_python/README.md) estudia si se puede
+predecir una pérdida de peso de al menos el 5 %. También agrupa los perfiles
+de la visita basal según su parecido. Se explica después del análisis principal.

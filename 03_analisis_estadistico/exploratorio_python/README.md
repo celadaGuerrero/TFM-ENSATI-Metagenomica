@@ -1,71 +1,91 @@
 # Análisis exploratorios en Python
 
-Estos scripts conservan el análisis exploratorio del TFM en Python. Pasarlo
-a R requeriría comprobar de nuevo sus resultados.
+Estos scripts conservan el análisis exploratorio del TFM en Python. El modelo
+predice si un participante pierde al menos el 5 % de su peso. También se buscan
+grupos de participantes con una composición microbiana similar en la visita basal.
 
 ## Archivos necesarios
 
-Los dos archivos se guardan en `datos/exploratorio/`, dentro de la carpeta principal del repositorio.
-Son tablas TSV, separadas por tabulaciones, y no se incluyen en GitHub.
+Los dos archivos se guardan en `datos/exploratorio/`, dentro de la carpeta
+principal del repositorio. Son tablas TSV, separadas por tabulaciones, y no
+se incluyen en GitHub.
 
 | Archivo | Contenido |
 |---|---|
-| `matriz_basal.tsv` | Una fila por participante en V00 y una columna por especie. Primera columna: `participante`. Abundancias relativas antes del filtro de prevalencia y antes de CLR. |
+| `matriz_basal.tsv` | Una fila por participante en V00 y una columna por especie. Primera columna: `participante`. Abundancias relativas antes del filtro de prevalencia y de la transformación CLR. |
 | `respuesta_peso.tsv` | Una fila por participante. Columnas `participante`, `respondedor_5pct` y `perdida_peso_pct`. |
 
-La pérdida de peso se expresa como `100 × (peso V00 − peso V06) / peso V00`.
-`respondedor_5pct` vale 1 cuando la pérdida es al menos del 5 %, y 0 en el resto.
-Se emplean los valores ya preparados y revisados para el TFM. Se conservan todos
-los decimales; no se vuelve a clasificar a partir de porcentajes redondeados.
-El modelo predice si la pérdida de peso alcanza el 5 %.
+La pérdida de peso se calcula como `100 × (peso V00 − peso V06) / peso V00`.
+`respondedor_5pct` vale 1 si la pérdida es de al menos el 5 %, y 0 en los demás
+casos. Se utilizan los valores revisados para el TFM, con todos sus decimales.
+La clasificación no se vuelve a calcular a partir de porcentajes redondeados.
 
-La matriz utilizada en el TFM contiene 15 filas y 1.095 especies. Se mantiene su orden de
-participantes y columnas. Ese orden también afecta a las particiones aleatorias.
-`entradas.py` comprueba la correspondencia y las ocho respuestas positivas y
-siete negativas del TFM. Los identificadores deben ser los mismos en ambas tablas.
+La matriz del TFM contiene 15 participantes y 1.095 especies. Se conserva el
+orden de sus filas y columnas, porque influye en el reparto aleatorio de los
+datos. Los identificadores de participante deben coincidir en ambas tablas.
+`entradas.py` comprueba esa correspondencia, las ocho respuestas positivas y
+las siete negativas.
 
-## Orden de lectura
+## Predicción con Elastic Net
 
-1. [Elastic Net](01_elasticnet.py). Se deja fuera a una persona y se entrena
-   con las otras 14. Dentro de ese entrenamiento se comparan las opciones del
-   modelo mediante tres particiones estratificadas. Se repite hasta obtener una
-   predicción para cada persona.
-2. [Grupos de perfiles basales](02_grupos_medoides.py). Se buscan agrupaciones
-   con dos, tres o cuatro grupos. Se elige la mayor silueta media. En caso de
-   empate, se usa la estabilidad al retirar una persona y después el menor
-   número de grupos. La respuesta de peso no interviene en esa elección.
-3. [Referencia condicional](03_referencia_condicional.py). Se mantienen fijas
-   las predicciones de Elastic Net y se comparan las 6.435 asignaciones posibles
-   de ocho respuestas positivas entre 15 personas. Es una referencia descriptiva;
-   no vuelve a entrenar el modelo con cada asignación.
+[01_elasticnet.py](01_elasticnet.py) usa validación cruzada: evalúa el modelo
+con participantes cuyos datos no se han utilizado para entrenarlo. Se deja
+fuera a un participante, se entrena con los otros 14 y se predice la respuesta
+del participante excluido. Se repite hasta obtener una predicción para cada
+uno de los 15 participantes.
 
-Las funciones compartidas están en [model_utils.py](model_utils.py).
-Se conservan los cálculos del archivo original y se han aclarado sus comentarios.
+Para elegir las opciones del modelo, los 14 participantes del entrenamiento
+se reparten en tres partes, llamadas particiones. Se procura mantener en cada
+una la proporción de respuestas positivas y negativas. Se entrena con dos
+partes y se evalúa con la tercera, alternándolas hasta evaluar las tres.
 
-## Decisiones del modelo
+En cada entrenamiento se conservan las especies presentes en al menos el
+20 % de los participantes, redondeando el mínimo hacia arriba. Después se
+ajusta la suma de abundancias de cada muestra a uno. Los ceros se sustituyen
+mediante un ajuste multiplicativo con `delta = 1 / D²`, donde `D` es el número
+de especies conservadas, y se aplica la transformación CLR.
 
-Dentro de cada partición de entrenamiento se conservan las especies presentes
-en al menos el 20 % de las personas, redondeando el mínimo hacia arriba.
-Después se ajusta la suma de cada muestra a uno, se sustituyen los ceros con
-`delta = 1 / D²` y se aplica CLR. `D` es el número de especies conservadas.
-La media y la desviación usadas para estandarizar se calculan solo con las
-personas del entrenamiento. Los datos de la persona evaluada no se utilizan para decidir el filtro ni
-para calcular esas medias y desviaciones. Esto también se respeta al comparar
-las opciones del modelo dentro del entrenamiento.
+La media y la desviación para estandarizar los datos se calculan solo con los
+participantes del entrenamiento. Los datos del participante evaluado no
+intervienen en el filtro ni en esos cálculos. Esta separación se mantiene
+también en las tres particiones internas.
 
-Elastic Net usa `C = 0.01, 0.1, 1, 10, 100` y
-`l1_ratio = 0, 0.25, 0.5, 0.75, 1`. La elección se basa en la exactitud equilibrada.
-En los empates se prefiere menor `C` y mayor `l1_ratio`.
-Se mantienen `saga`, pesos de clase equilibrados, 5.000 iteraciones máximas,
-tolerancia de 0,001 y semilla base 20260730.
+Se comparan `C = 0.01, 0.1, 1, 10, 100` y
+`l1_ratio = 0, 0.25, 0.5, 0.75, 1`. Se elige la combinación con mayor exactitud
+equilibrada: la media del porcentaje de aciertos en cada tipo de respuesta.
+En caso de empate, se prefiere menor `C` y mayor `l1_ratio`.
 
-El agrupamiento usa un filtro descriptivo distinto: presencia en al menos tres
-participantes basales. Se calcula la distancia euclídea entre perfiles CLR.
-El código evalúa todas las combinaciones de medoides para elegir el número
-de grupos. Un medoide es el perfil de un participante que se toma como
-representante de su grupo.
-La estabilidad al retirar una persona se calcula sobre las distancias ya
-obtenidas, sin repetir el filtrado. Estos grupos no se presentan como enterotipos.
+El modelo utiliza `saga`, pesos de clase equilibrados, un máximo de 5.000
+iteraciones, tolerancia de 0,001 y semilla base 20260730. Las funciones
+compartidas están en [model_utils.py](model_utils.py), que conserva los
+cálculos originales con comentarios revisados.
+
+## Grupos de perfiles basales
+
+[02_grupos_medoides.py](02_grupos_medoides.py) conserva las especies presentes
+en al menos tres participantes en V00. Calcula las distancias euclídeas entre
+sus perfiles CLR y compara agrupaciones de dos, tres y cuatro grupos.
+
+Cada grupo tiene un medoide: el perfil de un participante que se toma como
+representante. Para cada número de grupos se examinan todas las combinaciones
+posibles de medoides y se conserva la que minimiza la suma de las distancias
+de cada perfil a su medoide más cercano. Entre las tres soluciones se elige
+la de mayor silueta media, una medida de la semejanza dentro de los grupos y de su separación entre sí.
+
+En caso de empate, se prefiere la agrupación que cambia menos al retirar un
+participante y, después, la que tiene menos grupos. Esa estabilidad se calcula
+con las distancias ya obtenidas, sin repetir el filtro. La respuesta de peso
+no interviene en la elección. Estos grupos no se presentan como enterotipos.
+
+## Referencia condicional
+
+[03_referencia_condicional.py](03_referencia_condicional.py) mantiene fijas las
+predicciones de Elastic Net y compara las 6.435 formas posibles de asignar
+ocho respuestas positivas entre 15 participantes.
+
+Es una referencia descriptiva de esas predicciones. No se vuelve a entrenar
+el modelo con cada asignación, por lo que no constituye una prueba estadística
+del procedimiento completo de predicción.
 
 ## Salidas
 
@@ -77,21 +97,21 @@ Los resultados se escriben en `resultados/exploratorio/`:
 | Agrupamiento | `grupos_medoides.tsv`, `comparacion_k.tsv`, `resumen_medoides.json` |
 | Referencia | `referencia_condicional.json` |
 
-La métrica `average_precision` corresponde a `average_precision_score`.
-En la salida histórica se llamó `pr_auc`; aquí se aclara el nombre sin cambiar
-su cálculo. No equivale al área calculada por trapecios bajo la curva de precisión y sensibilidad.
+La métrica `average_precision` se calcula con `average_precision_score`.
+En la salida original se llamó `pr_auc`; aquí cambia el nombre, pero no el
+cálculo. No equivale al área calculada por trapecios bajo la curva de precisión
+y sensibilidad.
 
 ## Sobre esta versión
 
 Versión preparada el 11/11/2026 a partir de los scripts originales
 `06_ejecutar_elasticnet_anidado.py`, `08_ejecutar_PAM_basal.py` y
-`07_validar_y_referencia_condicional.py`. Se cambian rutas, nombres de archivos,
-algunos comentarios y la lectura de las tablas. Se añade una comprobación de
-las entradas. Las comprobaciones originales con datos simulados se conservan en los
-archivos de trabajo y no se incluyen aquí.
+`07_validar_y_referencia_condicional.py`. Se han cambiado las rutas, los nombres
+de archivo, algunos comentarios y la lectura de las tablas. Se han añadido
+comprobaciones de las entradas. Las comprobaciones originales con datos
+simulados se conservan en los archivos de trabajo y no se incluyen aquí.
 
 Se ha revisado el código y comprobado su sintaxis sin ejecutar los modelos.
-No se han vuelto a calcular ni comparar los resultados.
-Las versiones de [requirements.txt](../../requirements.txt) corresponden al entorno
-conservado consultado el 11/11/2026; no son una nueva ejecución del análisis.
-
+No se han vuelto a calcular ni comparar los resultados. Las versiones de
+[requirements.txt](../../requirements.txt) corresponden al entorno conservado,
+consultado el 11/11/2026; no proceden de una nueva ejecución.

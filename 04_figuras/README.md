@@ -1,21 +1,19 @@
-# 4. Figuras a partir de las tablas
+# 4. Figuras
 
 Los scripts leen las tablas de resultados y guardan los gráficos en
-`resultados/figuras/`. Los cálculos estadísticos se hacen por separado.
+`resultados/figuras/`. No repiten las pruebas estadísticas.
 
-| Script | Tabla de entrada | Qué muestra |
+| Script | Tabla que lee | Qué muestra |
 |---|---|---|
-| [Cambio en Shannon](01_cambio_diversidad_alfa.R) | `resultados/estadistica/alfa/cambios_por_persona.csv` | Cambio de cada participante, agrupado por intervención |
-| [Cambios en composición](02_cambios_composicion.R) | `resultados/estadistica/beta/especies_pca.csv` y `rutas_pca.csv` | Resumen en dos ejes de los cambios CLR |
+| [Cambio en Shannon](01_cambio_diversidad_alfa.R) | `resultados/estadistica/alfa/cambios_por_participante.csv` | Cambio de cada participante, separado por grupo de intervención |
+| [Cambios en composición](02_cambios_composicion.R) | `resultados/estadistica/beta/especies_pca.csv` y `rutas_pca.csv` | Resumen de los cambios CLR en dos ejes |
 
-En el PCA, cada punto representa el cambio de una persona entre visitas.
-Los ejes resumen parte de la variación de esos cambios. Las diferencias
-estadísticas se valoran con las pruebas del análisis, no solo con la figura.
+En el PCA, cada punto representa el cambio de un participante entre visitas.
+Los ejes recogen parte de la variación de esos cambios. Las diferencias entre
+grupos se valoran con las pruebas estadísticas, no solo mirando la figura.
 
-Los nombres de columna coinciden con las salidas de los scripts breves. Para
-representar una tabla del análisis original, se necesita una copia con esos nombres
-y unidades, conservando sus valores. Los originales se mantienen aparte.
+Las columnas deben tener los nombres indicados en los scripts. Para usar una
+tabla del análisis original, se prepara una copia con esos nombres y las
+mismas unidades, sin cambiar sus valores.
 
-Son ejemplos nuevos que muestran cómo dibujar las tablas de resultados.
-No se han ejecutado ni sustituyen las figuras de la memoria entregada.
-
+Estos ejemplos no se han ejecutado ni sustituyen las figuras del TFM entregado.

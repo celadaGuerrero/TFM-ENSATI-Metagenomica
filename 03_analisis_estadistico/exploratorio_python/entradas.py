@@ -10,7 +10,7 @@ def leer_entradas(matriz: Path, respuesta: Path) -> tuple[pd.DataFrame, pd.DataF
     datos = pd.read_csv(matriz, sep="\t", index_col="participante")
     peso = pd.read_csv(respuesta, sep="\t").set_index("participante")
     if len(datos) != 15 or datos.index.has_duplicates or peso.index.has_duplicates:
-        raise ValueError("Se esperan 15 participantes, con una fila por persona")
+        raise ValueError("Se esperan 15 participantes, con una fila por participante")
     if set(datos.index) != set(peso.index) or datos.index.isna().any():
         raise ValueError("Las tablas deben contener los mismos participantes")
     if datos.columns.has_duplicates or not len(datos.columns):
@@ -30,4 +30,3 @@ def leer_entradas(matriz: Path, respuesta: Path) -> tuple[pd.DataFrame, pd.DataF
     if not np.array_equal(respuesta_binaria.to_numpy(), (perdida >= 5).astype(int)):
         raise ValueError("La respuesta debe corresponder a una pérdida de peso de al menos el 5 %")
     return datos, peso
-

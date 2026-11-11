@@ -13,7 +13,7 @@ grupo <- parejas$grupo
 permutaciones <- crear_permutaciones(nrow(parejas))
 tamanos <- as.integer(table(grupo))
 
-# Aquí se permutan las etiquetas de grupo entre las personas.
+# Aquí se permutan las etiquetas de grupo entre los participantes.
 asignacion <- lapply(levels(grupo), function(g) {
   matrix(as.numeric(grupo[permutaciones] == g), nrow = nrow(permutaciones))
 })
@@ -47,4 +47,3 @@ for (tipo_datos in c("especies", "sgb", "rutas")) {
   guardar_tabla(pruebas, paste0(destino, "pruebas_globales.csv"))
   guardar_tabla(preparado$filtro, paste0(destino, "filtro.csv"))
 }
-

@@ -1,6 +1,6 @@
 # Objetivo: comparar el cambio en diversidad entre los tres grupos.
 # Entrada: metadatos y matriz de especies, sin filtro de prevalencia.
-# Salida: índices por muestra, cambios por persona y pruebas globales.
+# Salida: índices por muestra, cambios por participante y pruebas globales.
 # Los intervalos bootstrap y las comparaciones posteriores están en los scripts originales.
 
 library(vegan)
@@ -40,7 +40,7 @@ for (indice in c("shannon", "simpson", "riqueza")) {
   f_observado <- tabla_modelo["grupo", "F value"]
   if (all(cambio == cambio[1])) f_observado <- 0
 
-  # Mantener los grupos y permutar los valores de cambio entre las personas.
+  # Mantener los grupos y permutar los valores de cambio entre los participantes.
   valores <- matrix(cambio[permutaciones], nrow = nrow(permutaciones))
   medias <- sapply(levels(grupo), function(g) rowMeans(valores[, grupo == g]))
   f_simulado <- f_permutado(medias, cambio, tamanos)
@@ -57,6 +57,5 @@ pruebas$p_para_interpretar <- ifelse(secundarios, pruebas$p_ajustado, pruebas$p)
 
 # 4. Guardar las tablas. Las figuras se preparan en otro script.
 guardar_tabla(indices, "resultados/estadistica/alfa/indices_por_muestra.csv")
-guardar_tabla(cambios, "resultados/estadistica/alfa/cambios_por_persona.csv")
+guardar_tabla(cambios, "resultados/estadistica/alfa/cambios_por_participante.csv")
 guardar_tabla(pruebas, "resultados/estadistica/alfa/pruebas_globales.csv")
-

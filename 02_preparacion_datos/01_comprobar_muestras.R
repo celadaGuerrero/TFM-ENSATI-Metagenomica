@@ -28,7 +28,7 @@ for (id in unique(muestras$participante)) {
   if (length(unique(pareja$grupo)) != 1) stop("El grupo cambia entre visitas: ", id)
 }
 
-# El TFM incluye 30 muestras, con cinco personas por grupo.
+# El TFM incluye 30 muestras, con cinco participantes por grupo.
 basal <- muestras[muestras$visita == "V00", ]
 if (nrow(muestras) != 30 || nrow(basal) != 15 ||
     length(unique(basal$grupo)) != 3 || any(table(basal$grupo) != 5)) {
@@ -37,4 +37,3 @@ if (nrow(muestras) != 30 || nrow(basal) != 15 ||
 muestras <- muestras[order(muestras$participante, muestras$visita, method = "radix"), ]
 dir.create("resultados/preparacion", recursive = TRUE, showWarnings = FALSE)
 write.csv(muestras, "resultados/preparacion/muestras.csv", row.names = FALSE)
-

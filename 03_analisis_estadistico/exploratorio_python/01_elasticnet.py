@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Predice la respuesta de peso dejando fuera a una persona en cada evaluación."""
+"""Predice la respuesta de peso dejando fuera a un participante en cada evaluación."""
 
 from __future__ import annotations
 
@@ -49,7 +49,7 @@ def main() -> int:
 
     prediction_rows: list[dict[str, object]] = []
     coefficient_rows: list[dict[str, object]] = []
-    # Se evalúa una persona cada vez y se entrena con los datos de las demás.
+    # Se evalúa un participante cada vez y se entrena con los datos de los demás participantes.
     for held_out in range(len(matrix)):
         train_idx = np.array([i for i in range(len(matrix)) if i != held_out])
         test_idx = np.array([held_out])
@@ -140,4 +140,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

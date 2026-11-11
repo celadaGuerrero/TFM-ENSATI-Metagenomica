@@ -20,7 +20,7 @@ for (tipo_datos in c("especies", "rutas")) {
   cambios <- preparado$cambios
   distancia <- dist(cambios, method = "euclidean")
 
-  # 3. PERMANOVA entre los cambios de las personas, con cinco por grupo.
+  # 3. PERMANOVA entre los cambios de los participantes, con cinco por grupo.
   modelo <- adonis2(distancia ~ grupo, data = parejas,
                     permutations = permutaciones)
   dispersion <- betadisper(distancia, parejas$grupo,
@@ -50,4 +50,3 @@ for (tipo_datos in c("especies", "rutas")) {
   guardar_tabla(coordenadas, paste0(destino, "pca.csv"))
 }
 guardar_tabla(do.call(rbind, resumen), "resultados/estadistica/beta/pruebas_globales.csv")
-
