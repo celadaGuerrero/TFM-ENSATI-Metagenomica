@@ -60,7 +60,7 @@ de la visita basal según su parecido.
 
 Python entrena el modelo y obtiene las agrupaciones. Después,
 [04_resumen_exploratorio.R](04_resumen_exploratorio.R) lee sus tablas y prepara
-los resúmenes. [05_referencia_condicional.R](05_referencia_condicional.R)
+los resúmenes. [05_comparacion_predicciones.R](05_comparacion_predicciones.R)
 compara las predicciones fijas con todas las asignaciones posibles de respuesta.
 Esta comparación es descriptiva; no prueba el modelo completo.
 

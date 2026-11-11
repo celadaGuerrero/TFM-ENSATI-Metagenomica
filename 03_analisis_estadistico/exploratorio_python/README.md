@@ -1,7 +1,7 @@
 # Predicción y agrupación de perfiles basales
 
 Python entrena el modelo y agrupa los perfiles. R prepara las tablas de resumen
-y la referencia descriptiva. El modelo predice si un participante pierde al menos el 5 % de su peso. También se buscan
+y la comparación descriptiva de las predicciones. El modelo predice si un participante pierde al menos el 5 % de su peso. También se buscan
 grupos de participantes con una composición microbiana similar en la visita basal.
 
 ## Archivos necesarios
@@ -100,14 +100,14 @@ Los resúmenes usan los valores guardados en las tablas. Estas contienen
 cálculo realizado con toda la precisión interna del modelo. Se conserva la
 clasificación guardada por Python.
 
-## Referencia condicional
+## Comparación descriptiva de las predicciones
 
-[05_referencia_condicional.R](../05_referencia_condicional.R) mantiene fijas
+[05_comparacion_predicciones.R](../05_comparacion_predicciones.R) mantiene fijas
 las predicciones y compara las 6.435 formas de asignar ocho respuestas positivas
 entre 15 participantes. Guarda la media de cada medida y la proporción de
 asignaciones que igualan o superan el valor observado.
 
-Es una referencia descriptiva. Como no se vuelve a entrenar el modelo con
+Esta comparación es descriptiva. Como no se vuelve a entrenar el modelo con
 cada asignación, no es una prueba estadística del procedimiento completo.
 
 ## Archivos que se guardan
@@ -119,7 +119,7 @@ Todas las tablas se guardan en `resultados/exploratorio/`.
 | 01. Elastic Net, en Python | `predicciones_elasticnet.tsv`, `coeficientes_elasticnet.tsv` |
 | 02. Agrupamiento, en Python | `grupos_medoides.tsv`, `comparacion_k.tsv` |
 | 04. Resúmenes, en R | `resumen_elasticnet.csv`, `confusion_elasticnet.csv`, `resumen_medoides.csv`, `seleccion_medoides.csv` |
-| 05. Referencia descriptiva, en R | `referencia_condicional.csv` |
+| 05. Comparación descriptiva, en R | `comparacion_predicciones.csv` |
 
 `comparacion_k.tsv` recoge la silueta, la estabilidad y el número de especies
 para cada solución. `seleccion_medoides.csv` muestra la solución elegida.

@@ -1,5 +1,6 @@
-# Comparar todas las asignaciones posibles de respuesta con las predicciones fijas.
-# Es una referencia descriptiva: no se vuelve a entrenar el modelo.
+# Comparación descriptiva de las predicciones.
+# Mantener las predicciones fijas y repartir las respuestas de todas las formas posibles.
+# El modelo no se vuelve a entrenar.
 
 source("03_analisis_estadistico/00_metricas_exploratorio.R", encoding = "UTF-8")
 carpeta <- "resultados/exploratorio"
@@ -30,5 +31,5 @@ resumen <- data.frame(
                               mean(referencia[, 2] >= valores_observados[2])),
   n_asignaciones = ncol(asignaciones)
 )
-write.csv(resumen, file.path(carpeta, "referencia_condicional.csv"), row.names = FALSE)
-message("Referencia descriptiva guardada. No es una prueba del modelo completo.")
+write.csv(resumen, file.path(carpeta, "comparacion_predicciones.csv"), row.names = FALSE)
+message("Comparación descriptiva guardada. No es una prueba del modelo completo.")
