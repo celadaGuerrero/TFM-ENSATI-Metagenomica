@@ -16,4 +16,5 @@ Las columnas deben tener los nombres indicados en los scripts. Para usar una
 tabla del análisis original, se prepara una copia con esos nombres y las
 mismas unidades, sin cambiar sus valores.
 
-Estos ejemplos no se han ejecutado ni sustituyen las figuras del TFM entregado.
+Estos scripts muestran cómo representar el cambio en Shannon y los cambios
+de composición. Las figuras del TFM y sus tablas se conservan en el proyecto.

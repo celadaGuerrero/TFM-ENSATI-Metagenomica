@@ -1,6 +1,5 @@
 # Objetivo: comprobar las dos visitas y el grupo de cada participante.
 # Entrada: datos/muestras.csv. Salida: resultados/preparacion/muestras.csv.
-# Versión en R del 11/11/2026. No ejecutada sobre los datos del TFM.
 
 muestras <- read.csv("datos/muestras.csv", stringsAsFactors = FALSE,
                      check.names = FALSE, colClasses = "character")

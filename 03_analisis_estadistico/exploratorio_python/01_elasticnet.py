@@ -3,20 +3,10 @@
 
 from __future__ import annotations
 
-import hashlib
-import json
-from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from sklearn.metrics import (
-    average_precision_score,
-    balanced_accuracy_score,
-    brier_score_loss,
-    confusion_matrix,
-    roc_auc_score,
-)
 
 from model_utils import apply_transformer, fit_transformer, make_model, select_hyperparameters
 
@@ -28,15 +18,10 @@ OUTCOME = BASE / "datos/exploratorio/respuesta_peso.tsv"
 OUTPUT = BASE / "resultados/exploratorio"
 PREDICTIONS = OUTPUT / "predicciones_elasticnet.tsv"
 COEFFICIENTS = OUTPUT / "coeficientes_elasticnet.tsv"
-SUMMARY = OUTPUT / "resumen_elasticnet.json"
 
 C_GRID = (0.01, 0.1, 1.0, 10.0, 100.0)
 L1_GRID = (0.0, 0.25, 0.5, 0.75, 1.0)
 SEED = 20260730
-
-
-def sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def main() -> int:
@@ -96,45 +81,7 @@ def main() -> int:
         COEFFICIENTS, sep="\t", index=False, float_format="%.12g"
     )
 
-    tn, fp, fn, tp = confusion_matrix(
-        predictions["observado"], predictions["prediccion_0_5"], labels=[0, 1]
-    ).ravel()
-    metrics = {
-        "balanced_accuracy": float(
-            balanced_accuracy_score(predictions["observado"], predictions["prediccion_0_5"])
-        ),
-        "sensitivity": float(tp / (tp + fn)),
-        "specificity": float(tn / (tn + fp)),
-        "roc_auc": float(
-            roc_auc_score(predictions["observado"], predictions["probabilidad_respondedor"])
-        ),
-        "average_precision": float(
-            average_precision_score(
-                predictions["observado"], predictions["probabilidad_respondedor"]
-            )
-        ),
-        "brier_score": float(
-            brier_score_loss(
-                predictions["observado"], predictions["probabilidad_respondedor"]
-            )
-        ),
-    }
-    payload = {
-        "analysis": "ENSATI_TFM_PREDICTIVO_EXPLORATORIO_V1",
-        "created_utc": datetime.now(timezone.utc).isoformat(),
-        "status": "OBSERVED_NESTED_LOO_COMPLETE",
-        "participants": len(matrix),
-        "metrics": metrics,
-        "confusion": {"tn": int(tn), "fp": int(fp), "fn": int(fn), "tp": int(tp)},
-        "permutation_reference_executed": False,
-        "interpretation": "Análisis exploratorio; la referencia condicional se guarda por separado.",
-        "output_hashes": {
-            PREDICTIONS.name: sha256(PREDICTIONS),
-            COEFFICIENTS.name: sha256(COEFFICIENTS),
-        },
-    }
-    SUMMARY.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(json.dumps(payload, indent=2, ensure_ascii=False))
+    print(f"Tablas guardadas: {PREDICTIONS.name} y {COEFFICIENTS.name}")
     return 0
 
 

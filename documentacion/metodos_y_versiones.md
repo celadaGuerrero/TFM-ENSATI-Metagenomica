@@ -12,14 +12,14 @@
 | Base de nucleótidos de HUMAnN | ChocoPhlAn `full_chocophlan.v201901_v31` | Primera búsqueda de genes |
 | Base de proteínas de HUMAnN | UniRef90 `uniref90_201901b_full` | Búsqueda con DIAMOND 2.0.15 |
 
-El TFM usa la base taxonómica vJun23. La base Jan25 se utilizó después, para
-el conjunto completo de muestras. La base de MetaPhlAn y ChocoPhlAn de HUMAnN
-son distintas, aunque sus nombres se parezcan.
+La base de MetaPhlAn y ChocoPhlAn de HUMAnN son distintas, aunque sus nombres
+se parezcan. La primera se utiliza para estimar abundancias de microorganismos.
+La segunda se utiliza para buscar genes.
 
-Los comandos muestran las etapas con rutas de ejemplo. No reproducen todos
-los registros de ejecución. No se recuperó una misma línea de comando de
-fastp para todas las ejecuciones originales. Los controles y las salidas
-por muestra se conservan en el proyecto.
+Los comandos muestran las etapas con rutas de ejemplo. El ejemplo de fastp
+utiliza sus valores por defecto. No se dispone de una misma orden documentada
+para todas las ejecuciones de fastp. Los informes de cada muestra se conservan
+en el proyecto.
 
 ## Decisiones del análisis
 
@@ -53,14 +53,16 @@ resultado observado con los obtenidos de esa forma. En alfa se permutan los
 cambios; en las pruebas por especie, SGB o ruta se permutan las etiquetas.
 Se usa el mismo conjunto de permutaciones para todas las columnas de cada matriz.
 
-Los scripts originales también incluyen 10.000 remuestreos para los intervalos
-por bootstrap, comparaciones posteriores con Holm y análisis de sensibilidad.
-Estas partes no se incluyen en los scripts simplificados.
+Los scripts de trabajo del proyecto también incluyen 10.000 remuestreos
+para los intervalos por bootstrap, comparaciones posteriores con Holm y
+análisis de sensibilidad. Esas partes quedan fuera del recorrido de este
+repositorio.
 
 ## R y Python
 
-El entorno conservado registra R 4.6.1, vegan 2.7-5 y permute 0.9-10.
-Para las figuras se utiliza ggplot2. El análisis exploratorio se mantiene en
-Python. Sus dependencias están en [requirements.txt](../requirements.txt) y
-se explican en su [guía](../03_analisis_estadistico/exploratorio_python/README.md).
-Estas versiones se consultaron sin volver a ejecutar los análisis.
+El entorno de trabajo conservado contiene R 4.6.1, vegan 2.7-5 y permute 0.9-10.
+Las figuras utilizan ggplot2. En el análisis exploratorio, Python entrena el
+modelo predictivo y agrupa los perfiles basales. R prepara los resúmenes y las
+tablas. Las dependencias de Python están en [requirements.txt](../requirements.txt).
+La [guía del análisis exploratorio](../03_analisis_estadistico/exploratorio_python/README.md)
+explica los pasos y sus parámetros.

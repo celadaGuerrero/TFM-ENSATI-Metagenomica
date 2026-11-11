@@ -3,9 +3,7 @@
 
 from __future__ import annotations
 
-import hashlib
 import itertools
-import json
 from pathlib import Path
 
 import numpy as np
@@ -22,11 +20,6 @@ OUTCOME = BASE / "datos/exploratorio/respuesta_peso.tsv"
 OUTPUT = BASE / "resultados/exploratorio"
 ASSIGN = OUTPUT / "grupos_medoides.tsv"
 EVAL = OUTPUT / "comparacion_k.tsv"
-SUMMARY = OUTPUT / "resumen_medoides.json"
-
-
-def sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def exact_kmedoids(distance: np.ndarray, k: int) -> tuple[np.ndarray, tuple[int, ...], float]:
@@ -67,6 +60,7 @@ def main() -> int:
         evaluation_rows.append(
             {
                 "k": k,
+                "n_especies": len(retained),
                 "silhouette_mean": silhouette,
                 "ARI_LOO_mean": float(np.mean(loo_ari)),
                 "ARI_LOO_min": float(np.min(loo_ari)),
@@ -95,31 +89,7 @@ def main() -> int:
     assignments.to_csv(ASSIGN, sep="\t", index=False, float_format="%.12g")
     evaluation.sort_values("k").to_csv(EVAL, sep="\t", index=False, float_format="%.12g")
 
-    cluster_summary = {}
-    for cluster, group in assignments.groupby("cluster"):
-        cluster_summary[str(cluster)] = {
-            "n": int(len(group)),
-            "responders": int(group["respondedor_5pct"].sum()),
-            "responder_percent": float(100 * group["respondedor_5pct"].mean()),
-            "median_weight_loss_percent": float(group["perdida_peso_pct"].median()),
-        }
-    payload = {
-        "status": "PAM_COMPLETE",
-        "features": int(len(retained)),
-        "selected_k": selected_k,
-        "selection_used_outcome": False,
-        "selected_silhouette": float(
-            evaluation.loc[evaluation["k"] == selected_k, "silhouette_mean"].iloc[0]
-        ),
-        "selected_ARI_LOO_mean": float(
-            evaluation.loc[evaluation["k"] == selected_k, "ARI_LOO_mean"].iloc[0]
-        ),
-        "clusters": cluster_summary,
-        "interpretation": "Exploratorio descriptivo; no denominar enterotipos.",
-        "output_hashes": {ASSIGN.name: sha256(ASSIGN), EVAL.name: sha256(EVAL)},
-    }
-    SUMMARY.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(json.dumps(payload, indent=2, ensure_ascii=False))
+    print(f"Tablas guardadas: {ASSIGN.name} y {EVAL.name}")
     return 0
 
 

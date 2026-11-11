@@ -1,6 +1,6 @@
 # Objetivo: representar el cambio en Shannon a partir de una tabla ya calculada.
 # Entrada: cambios_por_participante.csv. Salida: resultados/figuras/cambio_shannon.png.
-# Ejemplo de representación, 11/11/2026; no vuelve a calcular ninguna prueba.
+# Leer la tabla de cambios sin repetir las pruebas estadísticas.
 
 library(ggplot2)
 cambios <- read.csv("resultados/estadistica/alfa/cambios_por_participante.csv")

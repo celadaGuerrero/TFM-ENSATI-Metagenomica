@@ -1,5 +1,4 @@
-# Bloque exploratorio en Python. Versiones del entorno conservado, consultadas el 11/11/2026.
-# Python 3.14.6. No se han vuelto a ejecutar los modelos con esta revisión.
+# Dependencias del bloque exploratorio. Python 3.14.6.
 numpy==2.5.1
 pandas==3.0.5
 scipy==1.18.0

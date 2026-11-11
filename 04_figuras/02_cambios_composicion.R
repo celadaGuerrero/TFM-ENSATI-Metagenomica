@@ -1,6 +1,6 @@
 # Objetivo: representar el PCA de los cambios taxonómicos y funcionales.
 # Entrada: especies_pca.csv y rutas_pca.csv. Salida: dos imágenes PNG.
-# Ejemplo de representación, 11/11/2026; lee coordenadas ya calculadas.
+# Leer las coordenadas del PCA guardadas en las tablas.
 
 library(ggplot2)
 dir.create("resultados/figuras", recursive = TRUE, showWarnings = FALSE)

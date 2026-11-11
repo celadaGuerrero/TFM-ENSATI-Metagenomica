@@ -1,8 +1,8 @@
 # 1. Procesamiento de las lecturas
 
-Los cuatro scripts se leen en el orden indicado. Para ejecutarlos se utiliza
-Bash desde la carpeta principal del repositorio. Los nombres de muestra y
-las rutas son ejemplos. Los datos y las bases de referencia no se incluyen.
+Los cuatro scripts se ejecutan en el orden indicado, desde la carpeta principal
+del repositorio y con Bash. Las rutas y los nombres de muestra son ejemplos.
+Los datos y las bases de referencia no se incluyen.
 
 | Script | Qué hace | Qué guarda |
 |---|---|---|
@@ -13,31 +13,32 @@ las rutas son ejemplos. Los datos y las bases de referencia no se incluyen.
 
 ## Lecturas y calidad
 
-R1 y R2 son lecturas de los dos extremos de un fragmento de ADN. Si hay varios
-archivos de una muestra, se reúnen los de R1 por un lado y los de R2 por otro.
-El primer script muestra un ejemplo con dos carriles de secuenciación. La lista
-debe ajustarse a los archivos disponibles.
+R1 y R2 contienen las lecturas de los dos extremos de cada fragmento de ADN.
+Si una muestra tiene varios archivos, se reúnen los de R1 por un lado y los
+de R2 por otro, en el mismo orden. El primer script incluye un ejemplo con dos
+carriles de secuenciación. La lista debe ajustarse a los archivos disponibles.
 
 fastp retira adaptadores y filtra por calidad. Sus informes muestran cuántas
-lecturas se conservan y cómo es la calidad antes y después del filtrado.
+lecturas se conservan y la calidad antes y después del filtrado.
 
 ## Filtrado humano
 
-Bowtie2 compara las lecturas con GRCh38. La opción `--un-conc-gz` conserva
-los pares que no encajan juntos en la referencia con la orientación y la
-separación esperadas. Una lectura del par puede coincidir por separado con
-la referencia humana.
+Bowtie2 compara las lecturas con la referencia humana GRCh38. La opción
+`--un-conc-gz` conserva los pares que no encajan juntos en esa referencia con
+la orientación y la separación esperadas. Una lectura del par puede coincidir
+por separado con la referencia humana.
 
 ## Microorganismos y funciones
 
-MetaPhlAn estima las abundancias a partir de genes marcadores. Su tabla contiene
-varios niveles de clasificación, como género y especie. Las abundancias de
-niveles distintos no se suman. En el paso siguiente se separan las especies
-y los SGB, que son grupos de genomas a nivel de especie.
+MetaPhlAn estima abundancias relativas a partir de genes marcadores. Su tabla
+contiene varios niveles de clasificación, como género y especie. Las
+abundancias de niveles distintos no se suman. En la preparación de datos se
+separan las especies y los SGB, que agrupan genomas a nivel de especie.
 
-HUMAnN usa el perfil de MetaPhlAn como apoyo. Primero busca en los pangenomas
-de ChocoPhlAn, es decir, en genes reunidos de distintos genomas de una especie. Después compara
-las lecturas restantes con las proteínas de UniRef90. Genera tres tablas:
+HUMAnN utiliza el perfil de MetaPhlAn para orientar la búsqueda. Primero busca
+en los pangenomas de ChocoPhlAn: conjuntos de genes reunidos de distintos
+genomas de una especie. Después compara las lecturas restantes con las
+proteínas de UniRef90. Genera tres tablas por muestra:
 
 | Archivo | Contenido |
 |---|---|
@@ -45,16 +46,14 @@ las lecturas restantes con las proteínas de UniRef90. Genera tres tablas:
 | `*_pathabundance.tsv` | Abundancia de rutas MetaCyc, calculada a partir de las abundancias génicas |
 | `*_pathcoverage.tsv` | Cobertura estimada de las rutas, entre 0 y 1 |
 
-Para el análisis funcional del TFM se utilizan las abundancias de las rutas.
-La [preparación de datos](../02_preparacion_datos/README.md) explica cómo se
-reúnen las tablas de las distintas muestras.
+El análisis funcional del TFM utiliza las abundancias de las rutas. La
+[preparación de datos](../02_preparacion_datos/README.md) explica cómo se reúnen
+las tablas de todas las muestras.
 
 ## Programas y bases
 
-Las versiones utilizadas están en [Métodos y versiones](../documentacion/metodos_y_versiones.md).
-La base de MetaPhlAn del TFM es vJun23. Las bases de ChocoPhlAn y UniRef90 deben
-estar configuradas en HUMAnN, y GRCh38 debe estar preparada como índice de Bowtie2.
+Las versiones están en [Métodos y versiones](../documentacion/metodos_y_versiones.md).
+La base de MetaPhlAn del TFM es vJun23. ChocoPhlAn y UniRef90 deben estar
+configuradas en HUMAnN. GRCh38 debe estar preparada como índice de Bowtie2.
 
-Estos comandos usan los parámetros del ejemplo publicado. Se han aclarado sus
-nombres y rutas. `--output-basename` fija el nombre de los archivos de HUMAnN.
-No se ha vuelto a procesar ninguna muestra durante esta revisión.
+La opción `--output-basename` de HUMAnN fija el nombre de sus archivos de salida.

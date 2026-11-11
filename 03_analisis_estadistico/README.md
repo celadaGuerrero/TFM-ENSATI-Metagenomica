@@ -50,10 +50,19 @@ Todas se guardan dentro de `resultados/estadistica/`:
 
 El TFM también incluye intervalos por bootstrap, comparaciones posteriores y
 análisis de sensibilidad. Esas partes se conservan en los scripts originales.
-Esta versión simplificada no las incluye y no se ha ejecutado de nuevo.
+Los scripts de esta carpeta se centran en los análisis principales.
 
 ## Análisis exploratorio
 
-El [apartado en Python](exploratorio_python/README.md) estudia si se puede
+El [análisis exploratorio](exploratorio_python/README.md) estudia si se puede
 predecir una pérdida de peso de al menos el 5 %. También agrupa los perfiles
-de la visita basal según su parecido. Se explica después del análisis principal.
+de la visita basal según su parecido.
+
+Python entrena el modelo y obtiene las agrupaciones. Después,
+[04_resumen_exploratorio.R](04_resumen_exploratorio.R) lee sus tablas y prepara
+los resúmenes. [05_referencia_condicional.R](05_referencia_condicional.R)
+compara las predicciones fijas con todas las asignaciones posibles de respuesta.
+Esta comparación es descriptiva; no prueba el modelo completo.
+
+Los dos scripts de R se ejecutan desde la carpeta principal del repositorio.
+Sus resultados se guardan en `resultados/exploratorio/`.
