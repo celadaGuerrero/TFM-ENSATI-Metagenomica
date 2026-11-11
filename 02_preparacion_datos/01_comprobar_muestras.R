@@ -37,3 +37,4 @@ if (nrow(muestras) != 30 || nrow(basal) != 15 ||
 muestras <- muestras[order(muestras$participante, muestras$visita, method = "radix"), ]
 dir.create("resultados/preparacion", recursive = TRUE, showWarnings = FALSE)
 write.csv(muestras, "resultados/preparacion/muestras.csv", row.names = FALSE)
+

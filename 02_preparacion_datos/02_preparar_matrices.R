@@ -60,3 +60,4 @@ guardar_matriz(sgb, "sgb")
 guardar_matriz(rutas, "rutas")
 # Aquí no se filtra por prevalencia ni se sustituyen ceros. La suma se ajusta
 # a uno dentro del análisis que lo necesita, después de seleccionar sus columnas.
+

@@ -108,3 +108,4 @@ def select_hyperparameters(
     if not np.isfinite(score):
         raise RuntimeError("Ninguna configuración interna convergió")
     return c_value, l1_ratio, score
+

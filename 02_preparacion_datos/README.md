@@ -61,3 +61,4 @@ El programa original también comprobó que coincidieran los códigos de las
 tablas de abundancia y cobertura de rutas. Ese control se conserva en los
 archivos de trabajo. Este script reúne las abundancias, pero no repite todas
 las comprobaciones de las salidas de HUMAnN.
+

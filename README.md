@@ -49,3 +49,4 @@ Cada carpeta indica las columnas necesarias y el orden de los scripts.
 Los datos clínicos y metagenómicos originales tienen acceso restringido.
 Su uso requiere la autorización de los responsables del estudio. Este
 repositorio contiene código y documentación, sin datos individuales.
+

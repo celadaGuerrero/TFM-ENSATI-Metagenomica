@@ -16,3 +16,4 @@ figura <- ggplot(cambios, aes(x = grupo, y = delta_shannon)) +
 dir.create("resultados/figuras", recursive = TRUE, showWarnings = FALSE)
 ggsave("resultados/figuras/cambio_shannon.png", figura,
        width = 16, height = 11, units = "cm", dpi = 300)
+

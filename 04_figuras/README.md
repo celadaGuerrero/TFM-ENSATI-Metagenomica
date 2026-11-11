@@ -18,3 +18,4 @@ y unidades, conservando sus valores. Los originales se mantienen aparte.
 
 Son ejemplos nuevos que muestran cómo dibujar las tablas de resultados.
 No se han ejecutado ni sustituyen las figuras de la memoria entregada.
+

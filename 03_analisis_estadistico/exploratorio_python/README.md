@@ -94,3 +94,4 @@ Se ha revisado el código y comprobado su sintaxis sin ejecutar los modelos.
 No se han vuelto a calcular ni comparar los resultados.
 Las versiones de [requirements.txt](../../requirements.txt) corresponden al entorno
 conservado consultado el 11/11/2026; no son una nueva ejecución del análisis.
+

@@ -22,3 +22,4 @@ for (tipo_datos in c("especies", "rutas")) {
   ggsave(paste0("resultados/figuras/cambios_", tipo_datos, ".png"), figura,
          width = 16, height = 11, units = "cm", dpi = 300)
 }
+

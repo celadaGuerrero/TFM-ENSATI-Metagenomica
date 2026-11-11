@@ -72,3 +72,4 @@ posteriores del conjunto completo de ENSATI son otro trabajo.
 La revisión del 11/11/2026 cambia nombres, rutas y comentarios. Se conservan
 los parámetros del ejemplo anterior. La opción `--output-basename` fija los
 nombres de los archivos de HUMAnN. No se ha vuelto a procesar ninguna muestra.
+

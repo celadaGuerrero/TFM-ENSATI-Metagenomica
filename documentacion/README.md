@@ -37,3 +37,4 @@ resultados del TFM siguen siendo los obtenidos con los scripts originales.
 Los archivos y comentarios utilizan nombres y rutas de ejemplo. Las bases
 de referencia y los datos restringidos se necesitan para ejecutar los
 programas. Los archivos anteriores siguen accesibles en el historial de Git.
+

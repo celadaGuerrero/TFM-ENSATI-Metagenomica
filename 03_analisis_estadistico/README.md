@@ -57,3 +57,4 @@ recalcular los resultados entregados.
 El [apartado en Python](exploratorio_python/README.md) incluye la predicción
 de una pérdida de peso de al menos el 5 % y la agrupación de perfiles basales.
 Responde a preguntas distintas y se presenta después del análisis principal.
+

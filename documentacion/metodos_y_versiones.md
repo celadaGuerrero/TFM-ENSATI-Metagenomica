@@ -64,3 +64,4 @@ Las dependencias de ese módulo figuran en [requirements.txt](../requirements.tx
 y se explican en su [README](../03_analisis_estadistico/exploratorio_python/README.md).
 Estas versiones se consultaron en el entorno conservado. No se volvieron
 a ejecutar los análisis durante la revisión.
+

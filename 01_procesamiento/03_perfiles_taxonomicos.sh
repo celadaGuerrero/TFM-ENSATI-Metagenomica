@@ -20,3 +20,4 @@ metaphlan \
   --index "$INDICE" \
   --bowtie2out "${SALIDA}/${MUESTRA}_alineamiento.bz2" \
   --output_file "${SALIDA}/${MUESTRA}_perfil.tsv"
+

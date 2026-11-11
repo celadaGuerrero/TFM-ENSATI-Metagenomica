@@ -50,3 +50,4 @@ for (tipo_datos in c("especies", "rutas")) {
   guardar_tabla(coordenadas, paste0(destino, "pca.csv"))
 }
 guardar_tabla(do.call(rbind, resumen), "resultados/estadistica/beta/pruebas_globales.csv")
+

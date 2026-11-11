@@ -28,3 +28,4 @@ fastp \
   --html "${SALIDA}/${MUESTRA}_fastp.html" \
   --json "${SALIDA}/${MUESTRA}_fastp.json" \
   --thread 16
+

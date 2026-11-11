@@ -47,3 +47,4 @@ for (tipo_datos in c("especies", "sgb", "rutas")) {
   guardar_tabla(pruebas, paste0(destino, "pruebas_globales.csv"))
   guardar_tabla(preparado$filtro, paste0(destino, "filtro.csv"))
 }
+

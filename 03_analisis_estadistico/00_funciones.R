@@ -99,3 +99,4 @@ guardar_tabla <- function(tabla, archivo) {
   dir.create(dirname(archivo), recursive = TRUE, showWarnings = FALSE)
   write.csv(tabla, archivo, row.names = FALSE, fileEncoding = "UTF-8")
 }
+

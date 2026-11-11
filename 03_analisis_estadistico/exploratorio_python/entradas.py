@@ -30,3 +30,4 @@ def leer_entradas(matriz: Path, respuesta: Path) -> tuple[pd.DataFrame, pd.DataF
     if not np.array_equal(respuesta_binaria.to_numpy(), (perdida >= 5).astype(int)):
         raise ValueError("La respuesta debe corresponder a una pérdida de peso de al menos el 5 %")
     return datos, peso
+

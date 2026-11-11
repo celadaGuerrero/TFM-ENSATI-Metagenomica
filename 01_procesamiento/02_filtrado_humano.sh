@@ -21,3 +21,4 @@ bowtie2 \
   --threads 16 \
   -S /dev/null \
   2> "${SALIDA}/${MUESTRA}_bowtie2.log"
+

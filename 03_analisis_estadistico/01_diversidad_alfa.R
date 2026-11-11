@@ -59,3 +59,4 @@ pruebas$p_para_interpretar <- ifelse(secundarios, pruebas$p_ajustado, pruebas$p)
 guardar_tabla(indices, "resultados/estadistica/alfa/indices_por_muestra.csv")
 guardar_tabla(cambios, "resultados/estadistica/alfa/cambios_por_persona.csv")
 guardar_tabla(pruebas, "resultados/estadistica/alfa/pruebas_globales.csv")
+
