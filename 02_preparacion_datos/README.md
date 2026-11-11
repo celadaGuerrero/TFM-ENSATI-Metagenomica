@@ -1,8 +1,8 @@
 # 2. Preparación de los datos
 
-El objetivo es reunir las salidas del procesamiento y comprobar que cada
-participante tiene sus dos visitas. Las abundancias y los metadatos deben
-seguir el mismo orden.
+Se reúnen los perfiles de cada muestra y se comprueba que cada participante
+tenga V00 y V06. Las matrices de abundancia y los metadatos deben seguir
+el mismo orden de muestras.
 
 ## Entradas
 
@@ -25,9 +25,10 @@ Por cada muestra se necesitan los archivos generados en el paso 1:
 
 ## Scripts
 
-1. [Comprobar muestras](01_comprobar_muestras.R): comprueba códigos únicos,
-   visitas, grupo constante y los 15 participantes con dos visitas del TFM. Ordena por participante
-   y visita y guarda `resultados/preparacion/muestras.csv`.
+1. [Comprobar muestras](01_comprobar_muestras.R): revisa que los códigos no se
+   repitan y que las 15 personas tengan ambas visitas y el mismo grupo en las
+   dos. Ordena las filas por participante y visita y guarda
+   `resultados/preparacion/muestras.csv`.
 2. [Preparar matrices](02_preparar_matrices.R): reúne los perfiles individuales
    y guarda tres matrices en `resultados/preparacion/`.
 
@@ -39,11 +40,12 @@ Por cada muestra se necesitan los archivos generados en el paso 1:
 
 En las tres matrices, la primera columna es `muestra`. Cada fila representa
 una muestra. Los códigos completos se conservan como nombres de columna.
-Un SGB es un grupo de genomas que representa una unidad a nivel de especie.
+Un SGB reúne genomas similares y se utiliza como unidad a nivel de especie.
 Las matrices de especies y SGB se analizan por separado: no se suman entre sí.
 
-Para taxonomía se seleccionan Bacteria y Archaea. Para funciones se toman las
-rutas totales, sin las contribuciones separadas por microorganismo, y se
+En taxonomía se seleccionan bacterias y arqueas. En el análisis funcional se
+utilizan las rutas de la comunidad completa. Se omiten las filas que separan
+la contribución de cada microorganismo y se
 retiran `UNMAPPED` y `UNINTEGRATED`. La cobertura de rutas y las familias
 génicas no se utilizan como abundancias de rutas.
 
@@ -51,10 +53,11 @@ Un código que no aparece en un perfil recibe cero. En este paso no se aplica
 el filtro de prevalencia ni se sustituyen los ceros. Cada análisis ajusta las
 sumas y selecciona las columnas que necesita.
 
-La preparación original se hizo en Python. Estos dos scripts son una
-adaptación a R para facilitar la lectura, fechada el 11/11/2026. No se han
-utilizado para recalcular las matrices o los resultados del TFM.
+La preparación original se hizo en Python. El 11/11/2026 se escribió esta
+versión en R para facilitar su lectura. No se ha utilizado para recalcular
+las matrices ni los resultados del TFM.
 
-El flujo original también contrastó los códigos de abundancia y cobertura de
-rutas. Ese control se conserva en el proyecto; este lector breve reúne las
-abundancias y no repite toda la validación de las salidas de HUMAnN.
+El programa original también comprobó que coincidieran los códigos de las
+tablas de abundancia y cobertura de rutas. Ese control se conserva en los
+archivos de trabajo. Este script reúne las abundancias, pero no repite todas
+las comprobaciones de las salidas de HUMAnN.

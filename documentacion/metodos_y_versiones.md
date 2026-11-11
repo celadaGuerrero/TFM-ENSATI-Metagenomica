@@ -19,7 +19,7 @@ ChocoPhlAn que utiliza HUMAnN para buscar secuencias de genes.
 Los comandos muestran las etapas principales con rutas de ejemplo. No son
 una transcripción de todos los registros de ejecución. En particular, no se
 recuperó una línea de comando idéntica de fastp para todas las ejecuciones
-históricas. Los controles y las salidas por muestra se conservan en el proyecto.
+originales. Los controles y las salidas por muestra se conservan en el proyecto.
 
 ## Preparación y comparación
 
@@ -52,15 +52,15 @@ el mismo conjunto de permutaciones para todas las columnas de cada matriz.
 
 Los análisis complementarios del TFM incluyeron 10.000 remuestreos para los
 intervalos por bootstrap, contrastes posteriores con Holm y comprobaciones
-de sensibilidad. No se desarrollan de nuevo en el recorrido breve.
+de sensibilidad. Estas partes no se incluyen en los scripts simplificados.
 
 ## Entorno de R y Python
 
 El entorno conservado del proyecto registra R 4.6.1, vegan 2.7-5 y permute
 0.9-10. Los scripts de figuras utilizan ggplot2. No necesitan glmnet ni
-cluster: el módulo exploratorio utiliza su implementación histórica en Python.
+cluster: el módulo exploratorio conserva los cálculos originales en Python.
 
 Las dependencias de ese módulo figuran en [requirements.txt](../requirements.txt)
 y se explican en su [README](../03_analisis_estadistico/exploratorio_python/README.md).
-La relación de versiones conservada no implica que esta revisión haya vuelto
-a ejecutar los análisis.
+Estas versiones se consultaron en el entorno conservado. No se volvieron
+a ejecutar los análisis durante la revisión.

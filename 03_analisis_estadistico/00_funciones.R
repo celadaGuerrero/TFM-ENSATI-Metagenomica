@@ -1,4 +1,4 @@
-# Funciones comunes: leer las matrices, formar parejas y preparar los cambios.
+# Funciones comunes para leer matrices, unir visitas y calcular cambios.
 # Los scripts 01, 02 y 03 usan estas funciones desde la raíz del repositorio.
 
 leer_metadatos <- function() {
@@ -83,7 +83,7 @@ crear_permutaciones <- function(n) {
   permutaciones
 }
 
-# F compara cuánto difieren las medias de los grupos respecto a la variación total.
+# F compara las diferencias entre las medias con la variación dentro de los grupos.
 # Cada fila de 'medias' corresponde a una permutación; las columnas son los grupos.
 f_permutado <- function(medias, valores, tamanos) {
   entre <- rowSums(sweep((medias - mean(valores))^2, 2, tamanos, "*"))

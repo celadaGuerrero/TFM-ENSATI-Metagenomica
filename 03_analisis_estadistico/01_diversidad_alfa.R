@@ -1,7 +1,7 @@
 # Objetivo: comparar el cambio en diversidad entre los tres grupos.
 # Entrada: metadatos y matriz de especies, sin filtro de prevalencia.
 # Salida: índices por muestra, cambios por persona y pruebas globales.
-# Versión breve: los intervalos bootstrap y los contrastes están en el análisis histórico.
+# Los intervalos bootstrap y las comparaciones posteriores están en los scripts originales.
 
 library(vegan)
 library(permute)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""PAM basal exacto para k=2..4, seleccionado sin utilizar el desenlace."""
+"""Agrupa los perfiles basales en dos, tres o cuatro grupos mediante medoides."""
 
 from __future__ import annotations
 
@@ -82,7 +82,7 @@ def main() -> int:
     selected_k = int(evaluation.iloc[0]["k"])
     labels, medoids, _ = solutions[selected_k]
 
-    # El desenlace solo describe los grupos, una vez elegido el número de grupos.
+    # La respuesta de peso se usa para describir los grupos después de elegir cuántos hay.
     assignments = pd.DataFrame(
         {
             "participante": raw.index,

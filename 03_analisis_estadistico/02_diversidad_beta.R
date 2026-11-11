@@ -1,7 +1,7 @@
 # Objetivo: comparar los cambios en la composición taxonómica y funcional.
 # Entrada: metadatos y matrices de especies y rutas MetaCyc.
 # Salida: PERMANOVA, dispersión y coordenadas del PCA de los cambios CLR.
-# Versión breve: los contrastes por pares y las sensibilidades se conservan aparte.
+# Las comparaciones entre dos grupos y los análisis de sensibilidad se conservan aparte.
 
 library(vegan)
 library(permute)

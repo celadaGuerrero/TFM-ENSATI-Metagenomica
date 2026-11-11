@@ -1,6 +1,6 @@
 # Objetivo: reunir los perfiles en tres matrices, con una fila por muestra.
 # Entrada: perfiles individuales y muestras.csv comprobado. Salida: tres CSV.
-# Adaptación a R del lector original en Python, 11/11/2026; no ejecutada.
+# Lectura de perfiles adaptada de Python a R el 11/11/2026. No ejecutada.
 
 muestras <- read.csv("resultados/preparacion/muestras.csv", colClasses = "character")
 especies <- list()

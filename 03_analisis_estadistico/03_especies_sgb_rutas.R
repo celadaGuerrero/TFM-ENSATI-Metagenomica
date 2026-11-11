@@ -1,12 +1,12 @@
 # Objetivo: comparar entre grupos el cambio CLR de cada especie, SGB o ruta.
 # Entrada: metadatos y las tres matrices preparadas.
 # Salida: estadístico F, p y q de Benjamini-Hochberg por tipo de datos.
-# Versión breve: no genera los contrastes ni los intervalos del análisis histórico.
+# Las comparaciones posteriores y los intervalos se conservan en los scripts originales.
 
 library(permute)
 source("03_analisis_estadistico/00_funciones.R")
 
-# 1. Leer los metadatos y preparar una permutación común para todos los códigos.
+# 1. Leer los metadatos y preparar las mismas permutaciones para todos los códigos.
 metadatos <- leer_metadatos()
 parejas <- formar_parejas(metadatos)
 grupo <- parejas$grupo

@@ -15,21 +15,20 @@ la muestra limitan la interpretación de los resultados.
 | Paso | Qué se hace | Código y explicación |
 |---|---|---|
 | 1 | Revisar las lecturas, filtrar frente al genoma humano y obtener los perfiles | [Procesamiento](01_procesamiento/README.md) |
-| 2 | Comprobar las parejas y preparar las matrices de especies, SGB y rutas | [Preparación de datos](02_preparacion_datos/README.md) |
+| 2 | Comprobar las dos visitas de cada persona y preparar las matrices de abundancias | [Preparación de datos](02_preparacion_datos/README.md) |
 | 3 | Comparar la diversidad y los cambios entre grupos | [Análisis estadístico](03_analisis_estadistico/README.md) |
 | 4 | Representar las tablas de resultados | [Figuras](04_figuras/README.md) |
 
 ## Cómo está organizado
 
-Los scripts presentan un recorrido breve del procedimiento. La preparación
-de tablas y las comparaciones principales se muestran en R. Los programas de
-procesamiento se utilizan desde Bash. El análisis exploratorio conserva el
-algoritmo original en Python.
+Los scripts siguen las etapas del TFM. La preparación de tablas y las
+comparaciones principales se muestran en R. Los programas de procesamiento
+se ejecutan desde Bash. El análisis exploratorio mantiene su código en Python.
 
-Esta revisión, del 11 de noviembre de 2026, aclara el código público. Los
-scripts adaptados no se han ejecutado sobre los datos del TFM y no sustituyen
-los resultados ya conservados. La [documentación](documentacion/README.md)
-explica qué incluye el recorrido y qué análisis complementarios quedan fuera.
+El 11 de noviembre de 2026 se reorganizó el código y se revisaron las
+explicaciones. Los scripts adaptados no se han ejecutado sobre los datos del
+TFM. La [documentación](documentacion/README.md) indica qué partes se incluyen
+y cuáles se conservan en los archivos de trabajo originales.
 
 | Etapa | Programas |
 |---|---|
@@ -43,7 +42,7 @@ Las bases de datos, versiones y parámetros se detallan en
 
 ## Datos y uso
 
-Las rutas son relativas a la raíz del repositorio. Los ejemplos esperan los
+Las rutas parten de la carpeta principal del repositorio. Los ejemplos esperan los
 archivos de entrada en `datos/` y guardan sus salidas en `resultados/`.
 Cada carpeta indica las columnas necesarias y el orden de los scripts.
 

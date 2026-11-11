@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Recalcula métricas y obtiene referencia exacta condicional de las predicciones."""
+"""Compara las asignaciones posibles de respuesta manteniendo fijas las predicciones."""
 
 from __future__ import annotations
 

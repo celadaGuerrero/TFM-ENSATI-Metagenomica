@@ -1,4 +1,4 @@
-"""Utilidades del modelo predictivo con preparación confinada al entrenamiento."""
+"""Prepara los datos y ajusta el modelo usando solo los participantes de entrenamiento."""
 
 from __future__ import annotations
 
@@ -79,7 +79,7 @@ def select_hyperparameters(
     l1_grid: tuple[float, ...],
     seed: int,
 ) -> tuple[float, float, float]:
-    """CV interna estratificada; el score agrega todas las predicciones."""
+    """Compara las opciones del modelo con las predicciones de las particiones internas."""
     candidates: list[tuple[float, float, float]] = []
     n = len(frame)
     for c_value in c_grid:
@@ -102,7 +102,7 @@ def select_hyperparameters(
                 else float("-inf")
             )
             candidates.append((score, c_value, l1_ratio))
-    # Mejor score; en empate, menor C (más regularización) y mayor l1_ratio.
+    # Elegir la mayor exactitud equilibrada. En empate, menor C y mayor l1_ratio.
     candidates.sort(key=lambda item: (-item[0], item[1], -item[2]))
     score, c_value, l1_ratio = candidates[0]
     if not np.isfinite(score):
