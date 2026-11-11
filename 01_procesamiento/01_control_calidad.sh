@@ -1,23 +1,25 @@
 #!/usr/bin/env bash
+# Objetivo: reunir los archivos de una muestra y limpiar las lecturas con fastp.
+# Entrada: FASTQ comprimidos, separados en R1 y R2.
+# Salida: lecturas filtradas e informes de calidad HTML y JSON.
+set -euo pipefail
 
-# La muestra se representa mediante un nombre ficticio para preservar la confidencialidad de los datos
 MUESTRA="muestra_ejemplo"
 LECTURAS="datos"
 TRABAJO="resultados/lecturas_unificadas"
 SALIDA="resultados/control_calidad"
-
 mkdir -p "$TRABAJO" "$SALIDA"
 
-# Se agrupan los distintos archivos obtenidos para cada muestra, manteniendo separadas las lecturas R1 y R2
+# Ejemplo con dos carriles. Ajustar esta lista a los archivos de cada muestra.
+# Reunir siempre R1 por separado de R2 y en el mismo orden.
 cat "${LECTURAS}/${MUESTRA}_L001_R1.fastq.gz" \
     "${LECTURAS}/${MUESTRA}_L002_R1.fastq.gz" \
     > "${TRABAJO}/${MUESTRA}_R1.fastq.gz"
-
 cat "${LECTURAS}/${MUESTRA}_L001_R2.fastq.gz" \
     "${LECTURAS}/${MUESTRA}_L002_R2.fastq.gz" \
     > "${TRABAJO}/${MUESTRA}_R2.fastq.gz"
 
-# fastp elimina los adaptadores y descarta las lecturas que no superan los umbrales de calidad
+# Retirar adaptadores y filtrar por calidad, con los valores por defecto de fastp.
 fastp \
   --in1 "${TRABAJO}/${MUESTRA}_R1.fastq.gz" \
   --in2 "${TRABAJO}/${MUESTRA}_R2.fastq.gz" \
