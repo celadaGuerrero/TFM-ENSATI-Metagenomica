@@ -1,9 +1,7 @@
 # TFM ENSATI: microbioma intestinal
 
-Este repositorio reúne ejemplos de código para explicar el procesamiento y
-los análisis del TFM de José Antonio Celada Guerrero sobre el microbioma
-intestinal en ENSATI. Se utilizan datos de metagenómica shotgun de muestras
-de heces.
+Este repositorio reúne el código para explicar el procesamiento y análisis del TFM de José Antonio Celada Guerrero sobre el microbioma
+intestinal en ENSATI. Se utilizan datos de metagenómica shotgun de muestras de heces.
 
 Se analizaron 30 muestras de 15 participantes, cinco por grupo de intervención.
 Cada participante aportó una muestra en la visita basal (V00) y otra a los seis
